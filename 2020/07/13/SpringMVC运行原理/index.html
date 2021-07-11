@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="大道至简"><title>SpringMVC原理分析 | 岳争</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">SpringMVC原理分析</h1><a id="logo" href="/.">岳争</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">SpringMVC原理分析</h1><div class="post-meta">2020-07-13<span> | </span><span class="category"><a href="/categories/Spring/">Spring</a></span></div><div class="post-content"><meta name="referrer" content="no-referrer"/>
+
+<h1 id="Spring-MVC——原理"><a href="#Spring-MVC——原理" class="headerlink" title="Spring MVC——原理"></a>Spring MVC——原理</h1><meta name="referrer" content="no-referrer"/>
+
+<p><img src="http://pic.netbian.com/uploads/allimg/160911/115910-14735663509098.jpg"></p>
+<p>&emsp;&emsp;对于Spring MVC相信大家并不陌生，它极大的简化了我们的Web开发，它是一个典型的教科书式MVC架构，而不像struts等都是变种或者不是完全基于mvc系统的框架，对于初学者或者想了解mvc的人来说我觉得 spring是最好的，它的实现就是教科书！它和tapestry一样是一个纯正的servlet系统，这也是它和tapestry相比 struts所具有的优势。而且框架本身有代码，看起来容易理解。</p>
+<h2 id="一、MVC简介"><a href="#一、MVC简介" class="headerlink" title="一、MVC简介"></a>一、MVC简介</h2><p><strong>先聊一聊Spring MVC是什么？</strong></p>
+<p>&emsp;&emsp;MVC是模型(Model)、视图(View)、控制器(Controller)的简写，是一种软件设计规范。MVC是将业务逻辑、数据、显示分离的方法来组织代码，主要作用是降低了视图与业务逻辑间的双向耦合。MVC不是一种设计模式，而是一种架构模式，当然不同的MVC存在差异。</p>
+<p><strong>Model(模型):</strong></p>
+<p><font color=#856363>&emsp;&emsp;数据模型，提供要展示的数据，因此包含数据和行为，可以认为是领域模型或JavaBean组件(包含数据和行为)，不过现在一般都分离开来:Value Object(数据Dao)和服务层(行为Service)。也就是模型提供了模型数据查询和模型数据的状态更新等功能，包括数据和业务。</font></p>
+<p><strong>View(视图):</strong></p>
+<p><font color=#856363>&emsp;&emsp;负责进行模型的展示，一般就是我们见到的用户界面，客户想看到的东西</font></p>
+<p><strong>Controller(控制器):</strong></p>
+<p><font color=#856363>&emsp;&emsp;接收用户请求，委托给模型进行处理(状态改变)，处理完毕后把返回给视图，由视图负责展示。也就是说控制器做了个调度员的工作</font></p>
+<p><strong><font color=#871F78>最典型的MVC就是JSP+Servlet+javaBean的模式</font></strong></p>
+<p><img src="https://i0.hdslb.com/bfs/album/7fd763a2bd84c22f92233c18a63a5ee219fad365.png"></p>
+<h2 id="二、Spring-MVC"><a href="#二、Spring-MVC" class="headerlink" title="二、Spring MVC"></a>二、Spring MVC</h2><p>&emsp;&emsp;Spring MVC属于SpringFrameWork的后续产品，已经融合在Spring Web Flow里面。Spring框架提供了构建Web应用程序的全部功能MVC模块。它是一个基于Java的实现了MVC设计模式的请求驱动类型的轻量级Web框架，通过把模板-视图-控制器分离，将Web层进行职责解耦，把负责的Web应用分成逻辑清晰的及部分，简化开发，减少出错，方便组内开发人员之间的配合</p>
+<p><strong>Spring MVC的优点</strong></p>
+<ul>
+<li>可以支持各种视图技术，而不仅仅局限于JSP</li>
+<li>与Spring框架集成(如IOC容器、AOP等)</li>
+<li>清晰的角色分配:前端控制器(DispatcherServlet)，请求到处理映射器(HandlerMapping),处理器适配器(HandlerAdapter),视图解析器(ViewResolver)。</li>
+<li>支持各种请求资源的映射策略</li>
+</ul>
+<h2 id="三、SpringMVC核心组件"><a href="#三、SpringMVC核心组件" class="headerlink" title="三、SpringMVC核心组件"></a>三、SpringMVC核心组件</h2><p><strong>前端控制器(DispatcherServlet)</strong></p>
+<p><font color=#FF7F00>&emsp;&emsp;SpringMVC的入口函数，不需要工程师开发，由框架提供。接受请求，响应结果，相当于转发器，中央处理器。有了DispatcherServlet减少了其他组件间的耦合度。用户请求到达前端控制器，它就相当于MVC模式中的C，DispatcherServlet是整个流程控制的中心，由它调用其他组件处理用户的请求，DispatcherServlet的存在降低了组件之间的耦合性</font></p>
+<p><strong>处理器映射器(HandlerMapping)</strong></p>
+<p><font color=#FF7F00>&emsp;&emsp;根据请求的url查找Handler，不需要工程师开发，由框架提供。HandlerMapping负责根据用户请求找到Handler即处理器，SpringMVC提供了不同的映射器实现不同的映射方式</font></p>
+<p><strong>处理器适配器(HandlerAdapter)</strong></p>
+<p><font color=#FF7F00>&emsp;&emsp;按照特定规则去执行Handler通过HandlerAdapter对处理器进行执行，这是适配器模式的应用，通过扩展适配器可以对更多类型的处理器进行执行</font></p>
+<p><strong>处理器Handler</strong></p>
+<p><font color=#FF7F00>&emsp;&emsp;这个组件需要工程师来开发，编写Handler时按照HandlerAdapter的要求去做，这样适配器才可以去正确的执行Handler Handler是继DispatcherServlet前端控制器的后端控制器，在DispatcherServlet的控制下Handler对具体的用户请求进行处理。由于Handler涉及到具体的用户业务请求，所以一般情况需要工程师根据业务需求来开发Handler</font></p>
+<p><strong>视图解析器(View resolver)</strong></p>
+<p><font color=#FF7F00>&emsp;&emsp;进行视图解析，根据逻辑视图名解析成真正的视图(view) View Resolver负责将处理结果生成View视图，View Resolver首先根据逻辑视图名解析成屋里视图名即具体的页面地址，在生成View视图对象，最后对View进行渲染将处理结果通过页面展示给用户。</font></p>
+<p><strong>视图(View)</strong></p>
+<p><font color=#FF7F00>&emsp;&emsp;View是一个接口，实现类支持不同的View类型</font></p>
+<h2 id="四、Spring-MVC工作原理"><a href="#四、Spring-MVC工作原理" class="headerlink" title="四、Spring MVC工作原理"></a>四、Spring MVC工作原理</h2><p>&emsp;&emsp;Spring的Web框架围绕DispatcherServlet设计。DisPatcherServlet的作用是将请求发到不同的处理器。从Spring2.5开始，使用Java 5或者以上的版本的用户可以采用基于注解的Controller声明方式。</p>
+<p>&emsp;&emsp;Spring MVC框架像很多其他MVC框架一样，以请求为驱动，围绕一个中心Servlet分派请求及提供其他功能，DispatcherServlet是一个实际的Servlet(它继承子HttpServlet)。</p>
+<p><strong>Spring MVC的原理如下图</strong></p>
+<p><img src="https://i0.hdslb.com/bfs/album/69aea3405255c6f2a6ec6a5961de24fa19fb46e9.jpg@518w_1e_1c.jpg"></p>
+<p>实现表示SpringMVC框架提供的技术，不需要开发者实现，虚线表示需要开发者手动实现。</p>
+<p><strong>执行流程:</strong></p>
+<ol>
+<li>DispatcherServlet表示前置控制器，整个Spring MVC的控制中心。用户发出请求，DispacherServlet接受请求并拦截请求。</li>
+</ol>
+<p>&emsp;&emsp;我们假设请求的url为： <code>http：//localhost：8080/SpringMVC/hello</code></p>
+<p>&emsp;&emsp;如上URL拆分成三个部分</p>
+<p>&emsp;&emsp;服务器域名：<code>http://localhost：8080</code></p>
+<p>&emsp;&emsp;服务器上的Web站点：SpringMVC</p>
+<p>&emsp;&emsp;控制器：hello</p>
+<p>&emsp;&emsp;通过分析，如上URL表示为：请求位于服务器localhost：8080上的SpringMVC站点的hello控制器。</p>
+<ol start="2">
+<li><p>HandlerMapping为处理器映射。DispatcherServlet调用HandlerMapping，HandlerMapping根据请求URL查找Handler</p>
+</li>
+<li><p>HandlerExecution表示具体的Handler，其主要作用是根据URL查找控制器，如上URL被查找的控制器为：hello</p>
+</li>
+<li><p>HandlerExecution将解析后的信息传递给DispatcherServlet，如解析控制器映射等</p>
+</li>
+<li><p>HandlerAdapter表示处理器适配器，其按照特定的规则去执行Handler</p>
+</li>
+<li><p>Handler让具体的Controller执行</p>
+</li>
+<li><p>Controller将具体的执行信息返回给HandlerAdapter，如ModelAndView</p>
+</li>
+<li><p>HandlerAdapter将视图逻辑名或模型传递给DispatcherServlet</p>
+</li>
+<li><p>DispatcherServlet调用视图解析器来解决HandlerAdapter传递的逻辑视图名。</p>
+</li>
+<li><p>视图解析器将解析的逻辑视图名传递给DispatcherServlet</p>
+</li>
+<li><p>DispatcherServlet根据视图解析器解析的视图结果，调用具体的视图。</p>
+</li>
+<li><p>最终视图呈现给用户。</p>
+</li>
+</ol>
+</div><div class="tags"><a href="/tags/Spring/"><i class="fa fa-tag"></i>Spring</a></div><div class="post-nav"><a class="pre" href="/2020/07/14/Spring-IOC/">Spring-IOC</a><a class="next" href="/2020/07/13/Spring%E7%AE%80%E4%BB%8B/">初识Spring</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://example.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JWT/">JWT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java-Web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leetcode/">Leetcode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/json/">json</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 15px;">笔记</a> <a href="/tags/JWT/" style="font-size: 15px;">JWT</a> <a href="/tags/Leetcode/" style="font-size: 15px;">Leetcode</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/%E5%BC%82%E5%B8%B8%E6%97%A5%E5%BF%97/" style="font-size: 15px;">异常日志</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 15px;">数据库</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 15px;">多线程</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/07/11/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/07/shiro(%E4%BA%94)%E6%95%B4%E5%90%88SpringBoot/">Shiro入门(五)：整合SpringBoot</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/05/shiro(%E5%9B%9B)%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Shiro入门(四)：认证源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/03/shiro(%E4%B8%89)%E8%AE%A4%E8%AF%81/">Shiro入门(三)：授权</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/03/shiro(%E4%BA%8C)%E8%87%AA%E5%AE%9A%E4%B9%89Reaml%E4%B8%8E%E5%8A%A0%E5%AF%86/">Shiro入门(二)：自定义Reaml与加密</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/02/shiro(%E4%B8%80)%E6%8E%88%E6%9D%83/">Shiro入门(一)：授权</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/19/Vue%E8%BF%9B%E9%98%B6/">Vue进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/19/JWT%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">JWT快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/16/Leetcode-01-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">Leetcode-01-两数之和</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/16/Vue%E5%85%A5%E9%97%A8/">Vue-入门</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">岳争.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

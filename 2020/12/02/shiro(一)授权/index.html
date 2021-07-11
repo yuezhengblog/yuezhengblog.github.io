@@ -1,0 +1,106 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="大道至简"><title>Shiro入门(一)：授权 | 岳争</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Shiro入门(一)：授权</h1><a id="logo" href="/.">岳争</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Shiro入门(一)：授权</h1><div class="post-meta">2020-12-02<span> | </span><span class="category"><a href="/categories/Shiro/">Shiro</a></span></div><div class="post-content"><meta name="referrer" content="no-referrer"/>
+
+
+<h1 id="Shiro入门-一-：授权"><a href="#Shiro入门-一-：授权" class="headerlink" title="Shiro入门(一)：授权"></a>Shiro入门(一)：授权</h1><h2 id="一、shiro简介"><a href="#一、shiro简介" class="headerlink" title="一、shiro简介"></a>一、shiro简介</h2><blockquote>
+<p><strong>Apache Shiro™</strong> is a powerful and easy-to-use Java security framework that performs authentication, authorization, cryptography, and session management. With Shiro’s easy-to-understand API, you can quickly and easily secure any application – from the smallest mobile applications to the largest web and enterprise applications.</p>
+</blockquote>
+<p>​        <code>Shiro是apache旗下一个开源框架，他将软件系统的安全认证相关的功能抽取出来，实现用户身份认证、授权管理、加密、会话管理等功能，组成一个通用的安全认证框架</code></p>
+<p><strong>官方网址：</strong><code>https://shiro.apache.org/</code></p>
+<h2 id="二、shiro的核心架构"><a href="#二、shiro的核心架构" class="headerlink" title="二、shiro的核心架构"></a>二、shiro的核心架构</h2><h3 id="2-1-Shiro高层概述"><a href="#2-1-Shiro高层概述" class="headerlink" title="2.1 Shiro高层概述"></a>2.1 Shiro高层概述</h3><p><img src="https://i0.hdslb.com/bfs/album/9ca7324816fb4a4b472474b659d9ad6077283487.png"></p>
+<p>在最概念层次，<code>shiro</code>的架构主要有三个主要的概念:<code>Subject(主体)</code>、<code>SecurityManager(核心)</code>和<code>Realms(领域)</code></p>
+<ul>
+<li><code>Subject(主体)</code><ul>
+<li>通俗来说就是访问系统的用户，主体可以是用户也可以是程序等，需要进行认证的都称之为主体</li>
+</ul>
+</li>
+<li><code>SecurityManager(核心)</code><ul>
+<li><code>SecurityManager</code>是<code>Shiro</code>体系结构的<strong>核心</strong>，并充当一种“伞”对象，该对象协调其内部安全组件，这些安全组件一起形成对象图。但是，一旦为应用程序配置了<code>SecurityManager</code>及其内部对象图，通常就不理会它，并且应用程序开发人员几乎所有的时间都花在<code>Subject</code>API上</li>
+</ul>
+</li>
+<li><code>Realms(领域)</code><ul>
+<li>它充当<code>Shiro</code>与应用程序的安全数据之间的“桥梁”或“连接器”。当真正需要与安全性相关的数据（例如用户帐户）进行交互以执行身份验证（登录）和授权（访问控制）时，<code>Shiro</code>会从一个或多个为应用程序配置的领域中查找许多此类内容。</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-2-shiro详细架构"><a href="#2-2-shiro详细架构" class="headerlink" title="2.2 shiro详细架构"></a>2.2 shiro详细架构</h3><p><img src="https://i0.hdslb.com/bfs/album/b3bb11854e46457c30fa6050fb93765a09d2a5c6.jpg"></p>
+<ul>
+<li><code>Subject</code><ul>
+<li><strong>主体</strong>，可以认为主体是任何可以与应用交互的用户</li>
+</ul>
+</li>
+<li><code>SecurityManager</code><ul>
+<li>它是<code>shiro</code>的心脏，所有具体的交互都是通过<code>SecurityManager</code>进行控制的，它管理着所有的<code>Subject</code>，且负责进行认证和授权、及会话、缓存的管理。它在位置类似于<code>SpringMVC</code>中的<code>DispatcherServlet</code></li>
+</ul>
+</li>
+<li><code>Authenticator</code><ul>
+<li><strong>认证器</strong>，负责主体认证的，这是一个扩展点，如果你感觉<code>Shiro</code>不好用，可以自定义实现，其需要认证策略<code>(Authentication Strategy)</code>，也就是什么情况下算用户认证通过了</li>
+</ul>
+</li>
+<li><code>Authorizer</code><ul>
+<li><strong>授权器</strong>，它用来决定主体是否具有权限进行响应的操作，也就是控制着用户能访问应用中的那些页面、功能等</li>
+</ul>
+</li>
+<li><code>Realm</code><ul>
+<li>它可以认为是安全实体数据源，即用来获取安全实体的。我们的程序中可以有一个或者多个<code>Realm</code>，它可以是<code>JDBC</code>实现，可以以是<code>LDAP</code>实现，或者内存实现等等</li>
+</ul>
+</li>
+<li><code>SessionManager</code><ul>
+<li>它负责管理<code>Session</code>的声明周期，这意味着<code>Shiro</code>可以在<code>Web</code>环境进行应用</li>
+</ul>
+</li>
+<li><code>SessionDAO</code><ul>
+<li><strong>数据访问对象</strong>，用户会话的<code>JDBC</code>，比如我们把<code>Session</code>保存到数据库，那么我们可以实现自己的<code>SessionDAO</code>，通过<code>JDBC</code>写到数据库。比如我们想把<code>Session</code>放到<code>Memcached</code>中，那么可以实现自己的<code>Memcached SessionDAO</code></li>
+</ul>
+</li>
+<li><code>CAcheManager</code><ul>
+<li><strong>缓存控制器</strong>，来管理如用户、角色、权限等缓存的；因为这些数据基本上很少去改变，可以放在缓存中为以后的访问来提高性能</li>
+</ul>
+</li>
+<li><code>Cryptography</code><ul>
+<li><strong>密码模块</strong>，<code>Shiro</code>提供了一些常见的加密组件用户密码加密和解密</li>
+</ul>
+</li>
+</ul>
+<h2 id="三、第一个shiro认证程序"><a href="#三、第一个shiro认证程序" class="headerlink" title="三、第一个shiro认证程序"></a>三、第一个shiro认证程序</h2><h3 id="3-1-Shiro中的认证"><a href="#3-1-Shiro中的认证" class="headerlink" title="3.1 Shiro中的认证"></a>3.1 Shiro中的认证</h3><p>&emsp;&emsp;身份认证，就是判断一个用户是否为合法用户的处理过程。最简单的身份认证方式就是系统通过核对用户输入的用户名和口令，看其是否与系统中存储的该用户的用户名和口令一致，来判断其身份。</p>
+<h3 id="3-2-Shiro中认证的关键对象"><a href="#3-2-Shiro中认证的关键对象" class="headerlink" title="3.2 Shiro中认证的关键对象"></a>3.2 Shiro中认证的关键对象</h3><ul>
+<li><p><code>Subject</code>：主体</p>
+<p>访问系统的用户，主体可以是用户、程序等，进行认证的都成为主体</p>
+</li>
+<li><p><code>Principal</code>：身份信息</p>
+<p>是主体(<code>subject</code>)进行身份认证的标识，标识必须具有<strong>唯一性</strong>，如用户名、手机号、邮箱地址等。一个主体可以有多个身份，但是必须有一个<strong>主身份(<code>Primary Principal</code>)</strong></p>
+</li>
+<li><p><code>credential</code>：凭证信息</p>
+<p>是只有主体自己知道的安全信息，如密码、证书等</p>
+</li>
+</ul>
+<h3 id="3-3-Shiro的认证流程"><a href="#3-3-Shiro的认证流程" class="headerlink" title="3.3 Shiro的认证流程"></a>3.3 Shiro的认证流程</h3><p><img src="https://i0.hdslb.com/bfs/album/2c51b309e5e1a67e51de8624f0afe39f99c712ee.png@518w.png"></p>
+<p><strong>流程解析：</strong></p>
+<ol>
+<li>主体携带带有身份信息的<code>token</code>发起访问请求</li>
+<li><code>shiro</code>验证<code>token</code>中的信息是否合法</li>
+<li>如果合法允许访问，如果不合法拒绝访问</li>
+</ol>
+<h3 id="3-4-第一个认证程序"><a href="#3-4-第一个认证程序" class="headerlink" title="3.4 第一个认证程序"></a>3.4 第一个认证程序</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ShiroApp</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 1. 创建安全管理器对象</span></span><br><span class="line">        DefaultSecurityManager defaultSecurityManager = <span class="keyword">new</span> DefaultSecurityManager();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 给安全管理器对象设置 reaml</span></span><br><span class="line">        defaultSecurityManager.setRealm(<span class="keyword">new</span> IniRealm(<span class="string">&quot;classpath:shiro.ini&quot;</span>));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 3. 设置 Shiro 全局工具类</span></span><br><span class="line">        SecurityUtils.setSecurityManager(defaultSecurityManager);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 4. 获取主体对象</span></span><br><span class="line">        Subject subject = SecurityUtils.getSubject();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 5. 创建令牌 token</span></span><br><span class="line">        UsernamePasswordToken token = <span class="keyword">new</span> UsernamePasswordToken(<span class="string">&quot;admin&quot;</span>,<span class="string">&quot;123123&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 6. 进行认证</span></span><br><span class="line">        subject.login(token);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>流程解析：</strong></p>
+<ol>
+<li><p>在上面介绍了<code>SecuriryManager</code>是<code>Shiro</code>的核心，所以如果想让<code>Shiro</code>帮我们完成认证，那么首先就要创建一个<code>SecurityManager</code>安全管理器</p>
+</li>
+<li><p>如果让<code>Shiro</code>帮我们认证登陆，那么我们肯定要告诉<code>Shiro</code>的安管管理器那些用户是认证通过的，所以第二步要给安全管理器设置一个<code>Realm</code>，<code>Realm</code>可以是一个<code>.ini</code>文件也可以是通过<code>JDBC</code>查询，这里我们用<code>.ini</code>文件，里面放置了一个<code>admin</code>的用户</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[users]</span></span><br><span class="line"><span class="attr">admin</span> = <span class="number">123123</span></span><br><span class="line"><span class="attr">root</span> = qweqwe</span><br></pre></td></tr></table></figure></li>
+<li><p><code>SecurityUtils</code>是<code>Shiro</code>为我们提供的一个全局工具类，它里面提供了<strong>认证</strong>和<strong>退出</strong>等相关方法，我们要做的就是给这个工具类设置一个<code>SecurityManager</code>对象</p>
+</li>
+<li><p>获取<code>Subject</code>主体对象进行认证操作</p>
+</li>
+</ol>
+<h3 id="3-5-Shiro认证过程常见异常"><a href="#3-5-Shiro认证过程常见异常" class="headerlink" title="3.5 Shiro认证过程常见异常"></a>3.5 Shiro认证过程常见异常</h3><ul>
+<li><code>UnkonwnAccoountException</code> <ul>
+<li>认证失败：用户名不存在</li>
+</ul>
+</li>
+<li><code>IncorrectCredentialsException</code><ul>
+<li>认证失败：密码错误</li>
+</ul>
+</li>
+</ul>
+</div><div class="tags"><a href="/tags/%E7%AC%94%E8%AE%B0/"><i class="fa fa-tag"></i>笔记</a></div><div class="post-nav"><a class="pre" href="/2020/12/03/shiro(%E4%BA%8C)%E8%87%AA%E5%AE%9A%E4%B9%89Reaml%E4%B8%8E%E5%8A%A0%E5%AF%86/">Shiro入门(二)：自定义Reaml与加密</a><a class="next" href="/2020/11/19/Vue%E8%BF%9B%E9%98%B6/">Vue进阶</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://example.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JWT/">JWT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java-Web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leetcode/">Leetcode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/json/">json</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 15px;">笔记</a> <a href="/tags/JWT/" style="font-size: 15px;">JWT</a> <a href="/tags/Leetcode/" style="font-size: 15px;">Leetcode</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/%E5%BC%82%E5%B8%B8%E6%97%A5%E5%BF%97/" style="font-size: 15px;">异常日志</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 15px;">数据库</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 15px;">多线程</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/07/11/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/07/shiro(%E4%BA%94)%E6%95%B4%E5%90%88SpringBoot/">Shiro入门(五)：整合SpringBoot</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/05/shiro(%E5%9B%9B)%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Shiro入门(四)：认证源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/03/shiro(%E4%B8%89)%E8%AE%A4%E8%AF%81/">Shiro入门(三)：授权</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/03/shiro(%E4%BA%8C)%E8%87%AA%E5%AE%9A%E4%B9%89Reaml%E4%B8%8E%E5%8A%A0%E5%AF%86/">Shiro入门(二)：自定义Reaml与加密</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/02/shiro(%E4%B8%80)%E6%8E%88%E6%9D%83/">Shiro入门(一)：授权</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/19/Vue%E8%BF%9B%E9%98%B6/">Vue进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/19/JWT%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">JWT快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/16/Leetcode-01-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">Leetcode-01-两数之和</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/16/Vue%E5%85%A5%E9%97%A8/">Vue-入门</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">岳争.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
