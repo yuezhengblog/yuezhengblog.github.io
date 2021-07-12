@@ -1,63 +1,63 @@
 <!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="大道至简"><title>长达数万子的Redis大总结（下） | 岳争</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">长达数万子的Redis大总结（下）</h1><a id="logo" href="/.">岳争</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a><a href="/atom.xml"><i class="fa fa-rss"> 订阅</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">长达数万子的Redis大总结（下）</h1><div class="post-meta">2020-08-10<span> | </span><span class="category"><a href="/categories/Redis/">Redis</a></span></div><div class="post-content"><meta name="referrer" content="no-referrer"/>
 
-<h1 id="Redis-下"><a href="#Redis-下" class="headerlink" title="Redis 下"></a>Redis 下</h1><p><img src="http://pic.netbian.com/uploads/allimg/200411/235633-15866205932161.jpg"></p>
+<h1 id="Redis-下"><a href="#Redis-下" class="headerlink" title="Redis 下"></a>Redis 下</h1><p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/235633-15866205932161.jpg"></p>
 <h2 id="一、Redis-conf配置详解"><a href="#一、Redis-conf配置详解" class="headerlink" title="一、Redis.conf配置详解"></a>一、Redis.conf配置详解</h2><p>  启动就是通过配置文件启动的</p>
 <h3 id="1-1-基础配置"><a href="#1-1-基础配置" class="headerlink" title="1.1 基础配置"></a>1.1 基础配置</h3><blockquote>
 <p>单位</p>
 </blockquote>
-<p><img src="https://i0.hdslb.com/bfs/album/40fdb5015c25e723014a2d306f430a222b49d084.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/40fdb5015c25e723014a2d306f430a222b49d084.png"></p>
 <ol>
 <li>配置文件对大小写不敏感的</li>
 </ol>
 <blockquote>
 <p>包含</p>
 </blockquote>
-<p><img src="https://i0.hdslb.com/bfs/album/ab42b90845e4f7e5673a6f821e09563088eef70d.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/ab42b90845e4f7e5673a6f821e09563088eef70d.png"></p>
 <p>​    它可以包含多个配置文件就像我们Spring里可以创建多个配置文件导入一个主配置文件中</p>
 <blockquote>
 <p>网络</p>
 </blockquote>
-<p><img src="https://i0.hdslb.com/bfs/album/d2adc8d4a8d85bca6be4fd3dea77b02a4a4ab2ac.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/d2adc8d4a8d85bca6be4fd3dea77b02a4a4ab2ac.png"></p>
 <p><strong>绑定的ip：127.0.0.1，如果想要外网访问要通过配置他</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/310fcfba51f2f9ccc3e01993704c5d146251a95e.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/310fcfba51f2f9ccc3e01993704c5d146251a95e.png"></p>
 <p>是否受保护的 一般默认都是开启的</p>
 <blockquote>
 <p>端口</p>
 </blockquote>
-<p><img src="https://i0.hdslb.com/bfs/album/788db83ee8250e73031b38ebdc878bdc5dc2c1fc.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/788db83ee8250e73031b38ebdc878bdc5dc2c1fc.png"></p>
 <p>在这里我们可以修改我们Redis的端口号</p>
-<h3 id="1-2-通用配置"><a href="#1-2-通用配置" class="headerlink" title="1.2 通用配置"></a>1.2 通用配置</h3><p><img src="https://i0.hdslb.com/bfs/album/b5781bd28c83ab1418e3bab50066d972d3819ca7.png"></p>
+<h3 id="1-2-通用配置"><a href="#1-2-通用配置" class="headerlink" title="1.2 通用配置"></a>1.2 通用配置</h3><p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/b5781bd28c83ab1418e3bab50066d972d3819ca7.png"></p>
 <p><strong>是否以守护线程方式开启，默认为no，为no的化 无法将redis后台允许，你退出后redis进程就关闭了</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/72ac3c2e338b1cfc75e23dcbd4f11f702d2b8794.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/72ac3c2e338b1cfc75e23dcbd4f11f702d2b8794.png"></p>
 <p><strong>如果以守护线程开启我们就要指定一个pid进程文件</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/e7b9fc7a98271fbf93ee4358f173a180795ef83e.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/e7b9fc7a98271fbf93ee4358f173a180795ef83e.png"></p>
 <p><strong>日志信息，又四个级别：debug、verbose、notice、warning</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/fd126a7edc1e540646d7d40f2c7fa75ea77be724.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/fd126a7edc1e540646d7d40f2c7fa75ea77be724.png"></p>
 <p><strong>日志的文件位置名</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/d2fd9d2299c21ea1711f93739b7112971d095e8d.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/d2fd9d2299c21ea1711f93739b7112971d095e8d.png"></p>
 <p><strong>默认的数据库数量，默认是16个数量</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/957202815db11376fa22192fe77d21acde729abc.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/957202815db11376fa22192fe77d21acde729abc.png"></p>
 <p>是否总是显示logo</p>
 <h3 id="1-3-持久化配置"><a href="#1-3-持久化配置" class="headerlink" title="1.3 持久化配置"></a>1.3 持久化配置</h3><blockquote>
 <p>快照</p>
 </blockquote>
 <p>持久化，在规定的时间内，执行了多少次操作，则会持久化到文件：.rdb .aof</p>
 <p>redis是内存数据库，如果没有持久化，那么数据断电即使</p>
-<p><img src="https://i0.hdslb.com/bfs/album/886a1a1960b991941e30fb96f082a25386e05ddb.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/886a1a1960b991941e30fb96f082a25386e05ddb.png"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 如果900秒内，至少有1个key进行了修改，我们就进行持久化操作</span></span><br><span class="line">save 900 1</span><br><span class="line"><span class="comment">## 如果300秒内，至少又10个key进行了修改，我们就进行持久化操作</span></span><br><span class="line">save 300 10</span><br><span class="line"><span class="comment">## 如果60秒内，至少又1W个key进行了修改，我们就进行持久化操作</span></span><br><span class="line">save 60 10000</span><br><span class="line"><span class="comment">## 我们之后学习持久化，会自己定义这个测试</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://i0.hdslb.com/bfs/album/fd30ac123786732bd1f41f95f3c3e518b850be1f.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/fd30ac123786732bd1f41f95f3c3e518b850be1f.png"></p>
 <p><strong>持久化出错了，是否还继续工作 默认为yes</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/41490e193053e5dc218e78705319a40a5d21e633.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/41490e193053e5dc218e78705319a40a5d21e633.png"></p>
 <p><strong>是否压缩rdb文件，也就是我们持久化的文件，需要消耗一写cup的资源</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/0e2a3deb5a06f6c41f7aa46e530b091640da57c4.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/0e2a3deb5a06f6c41f7aa46e530b091640da57c4.png"></p>
 <p><strong>保存rdb文件的时候，进行错误的检查校验</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/85b45a5e3d09fe95209b0ac873fc4adb1a1389c6.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/85b45a5e3d09fe95209b0ac873fc4adb1a1389c6.png"></p>
 <p><strong>rdb文件保存的目录</strong></p>
 <h3 id="1-4-安全配置"><a href="#1-4-安全配置" class="headerlink" title="1.4 安全配置"></a>1.4 安全配置</h3><blockquote>
 <p>密码</p>
 </blockquote>
-<p><img src="https://i0.hdslb.com/bfs/album/4e87347a8b531d6cfae958eb11ad5c8f6c431d60.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/4e87347a8b531d6cfae958eb11ad5c8f6c431d60.png"></p>
 <p>redis默认是空的，redis默认是没有密码的 ，如果要设置密码只要在，requirepass fobared下面 添加requirepass fobared 然后跟着要设置的密码即可，但是我们大部分都用命令行来设置</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config <span class="built_in">set</span> requirepass <span class="string">&quot;xxxx&quot;</span></span><br></pre></td></tr></table></figure>
 
@@ -72,17 +72,17 @@
 <h3 id="1-5APPEND-ONLY-MODE模式"><a href="#1-5APPEND-ONLY-MODE模式" class="headerlink" title="1.5APPEND ONLY MODE模式"></a>1.5APPEND ONLY MODE模式</h3><blockquote>
 <p> APPEND ONLY MODE模式 aof配置</p>
 </blockquote>
-<p><img src="https://i0.hdslb.com/bfs/album/f88633df8820f3dd20fa5c3d99a047e3784aa8e4.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/0e2a3deb5a06f6c41f7aa46e530b091640da57c4.png"></p>
 <p><strong>默认不开启aof模式的，默认是使用rdb方式持久化的，在大部分情况下rdb模式够用了</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/b2eb4329c81e285533dea88ee3b5180f55e7e774.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/b2eb4329c81e285533dea88ee3b5180f55e7e774.png"></p>
 <p><strong>持久化文件名</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/764aae85aa6dd144d77b43abb12d97875a9c9209.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/764aae85aa6dd144d77b43abb12d97875a9c9209.png"></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 每次修改都会sync 消耗性能</span></span><br><span class="line">appendfsync always</span><br><span class="line"><span class="comment">## 每秒都执行一次sync，可能丢失这1s的数据</span></span><br><span class="line">appendfsync everysec</span><br><span class="line"><span class="comment">## 不执行sync，这个时候操作系统自己同步数据，速度最快</span></span><br><span class="line">appendfsync no</span><br></pre></td></tr></table></figure>
 
-<h2 id="二、Redis持久化"><a href="#二、Redis持久化" class="headerlink" title="二、Redis持久化"></a>二、Redis持久化</h2><h3 id="2-1-RDB-Redis-DataBase"><a href="#2-1-RDB-Redis-DataBase" class="headerlink" title="2.1 RDB(Redis DataBase)"></a>2.1 RDB(Redis DataBase)</h3><p><img src="https://i0.hdslb.com/bfs/album/28ddf700c32dcbf91e4ce296100f672eb7bf5336.png"></p>
-<p>​&emsp;&emsp;在指定的时间间隔内将内存中的数据集快照写入磁盘，也就是行话讲的snapshot快照，它恢复是将快照文件读取到内存里。Redis会单独创建一个子进程来进行持久化，会先将数据写入到一个临时文件中，带持久化过程结束了在用这个临时文件替换上次持久化好了的文件。整个过程中，主进程不进行任何的IO操作。这就确保了极高的性能。如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那RDB方式要比AOF方式更加的搞笑。RDB的缺点是最后一次持久化后的数据可能会丢失。我们默认的就是RDB，一般情况下不需要修改这个配置。</p>
+<h2 id="二、Redis持久化"><a href="#二、Redis持久化" class="headerlink" title="二、Redis持久化"></a>二、Redis持久化</h2><h3 id="2-1-RDB-Redis-DataBase"><a href="#2-1-RDB-Redis-DataBase" class="headerlink" title="2.1 RDB(Redis DataBase)"></a>2.1 RDB(Redis DataBase)</h3><p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/28ddf700c32dcbf91e4ce296100f672eb7bf5336.png"></p>
+<p>&emsp;&emsp;在指定的时间间隔内将内存中的数据集快照写入磁盘，也就是行话讲的snapshot快照，它恢复是将快照文件读取到内存里。Redis会单独创建一个子进程来进行持久化，会先将数据写入到一个临时文件中，带持久化过程结束了在用这个临时文件替换上次持久化好了的文件。整个过程中，主进程不进行任何的IO操作。这就确保了极高的性能。如果需要进行大规模数据的恢复，且对于数据恢复的完整性不是非常敏感，那RDB方式要比AOF方式更加的搞笑。RDB的缺点是最后一次持久化后的数据可能会丢失。我们默认的就是RDB，一般情况下不需要修改这个配置。</p>
 <p>​    RDB保存的文件是dump.rdb</p>
-<p><img src="https://i0.hdslb.com/bfs/album/489314019a2e732a9f4d164c6c09d40856ab9f1f.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/489314019a2e732a9f4d164c6c09d40856ab9f1f.png"></p>
 <blockquote>
 <p>RDB规则触发机制</p>
 </blockquote>
@@ -115,12 +115,12 @@
 <li>1、数据安全性低。RDB 是间隔一段时间进行持久化，如果持久化之间 redis 发生故障，会发生数据丢失。所以这种方式更适合数据要求不严谨的时候)</li>
 <li>AOF（Append-only file)持久化方式： 是指所有的命令行记录以 redis 命令请 求协议的格式完全持久化存储)保存为 aof 文件。</li>
 </ol>
-<h3 id="2-2-AOF-Append-Only-File"><a href="#2-2-AOF-Append-Only-File" class="headerlink" title="2.2 AOF(Append Only File)"></a>2.2 AOF(Append Only File)</h3><p>​&emsp;&emsp;以日志的形式来记录每个操作，将Redis执行过的所有指令记录下来(读操作不记录)，只许追加文件不可以修改文件，redis启动之初会读取该文件重新构建数据，换句话来说，就是Redis重启的化根据日志文件的内容将写的指令冲前到后的重新执行一次来完成数据的恢复</p>
-<p>​&emsp;&emsp;AOF是默认不开启的，我们需要手动开启AOF规则需要在配置文件中将：appendonly 设置为yes</p>
-<p><img src="https://i0.hdslb.com/bfs/album/decc900c8909e14603914744e28808e62c4a8c90.png"></p>
+<h3 id="2-2-AOF-Append-Only-File"><a href="#2-2-AOF-Append-Only-File" class="headerlink" title="2.2 AOF(Append Only File)"></a>2.2 AOF(Append Only File)</h3><p>&emsp;&emsp;以日志的形式来记录每个操作，将Redis执行过的所有指令记录下来(读操作不记录)，只许追加文件不可以修改文件，redis启动之初会读取该文件重新构建数据，换句话来说，就是Redis重启的化根据日志文件的内容将写的指令冲前到后的重新执行一次来完成数据的恢复</p>
+<p>&emsp;&emsp;AOF是默认不开启的，我们需要手动开启AOF规则需要在配置文件中将：appendonly 设置为yes</p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/decc900c8909e14603914744e28808e62c4a8c90.png"></p>
 <p>如果我们的aof文件被破坏了我们可以通过一个文件进行修复</p>
-<p><img src="https://i0.hdslb.com/bfs/album/fb6681ac340d2d43c62dcb1303912f10073317cf.png"></p>
-<p><img src="https://i0.hdslb.com/bfs/album/23900e22a7443418ef3179d2ccc412cf369c6cf0.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/fb6681ac340d2d43c62dcb1303912f10073317cf.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/23900e22a7443418ef3179d2ccc412cf369c6cf0.png"></p>
 <blockquote>
 <p>aof优缺点</p>
 </blockquote>
@@ -147,7 +147,7 @@
 </ul>
 <h3 id="2-5-过期键的删除策略"><a href="#2-5-过期键的删除策略" class="headerlink" title="2.5 过期键的删除策略"></a>2.5 过期键的删除策略</h3><blockquote>
 <h3 id="Redis的过期键的删除策略"><a href="#Redis的过期键的删除策略" class="headerlink" title="Redis的过期键的删除策略"></a>Redis的过期键的删除策略</h3></blockquote>
-<p>​&emsp;&emsp;我们都知道，Redis是key-value数据库，我们可以设置Redis中缓存的key的过期时间。Redis的过期策略就是指当Redis中缓存的key过期了，Redis如何处理。</p>
+<p>&emsp;&emsp;我们都知道，Redis是key-value数据库，我们可以设置Redis中缓存的key的过期时间。Redis的过期策略就是指当Redis中缓存的key过期了，Redis如何处理。</p>
 <p><strong>过期策略通常有以下三种：</strong></p>
 <ul>
 <li>定时过期：每个设置过期时间的key都需要创建一个定时器，到过期时间就会立即清除。该策略可以立即清除过期的数据，对内存很友好；但是会占用大量的CPU资源去处理过期的数据，从而影响缓存的响应时间和吞吐量。</li>
@@ -155,9 +155,9 @@
 <li>定期过期：每隔一定的时间，会扫描一定数量的数据库的expires字典中一定数量的key，并清除其中已过期的key。该策略是前两者的一个折中方案。通过调整定时扫描的时间间隔和每次扫描的限定耗时，可以在不同情况下使得CPU和内存资源达到最优的平衡效果。(expires字典会保存所有设置了过期时间的key的过期时间数据，其中，key是指向键空间中的某个键的指针，value是该键的毫秒精度的UNIX时间戳表示的过期时间。键空间是指该Redis集群中保存的所有键。)</li>
 </ul>
 <p><strong>Redis中同时使用了惰性过期和定期过期两种过期策略。</strong></p>
-<h2 id="三、发布订阅"><a href="#三、发布订阅" class="headerlink" title="三、发布订阅"></a>三、发布订阅</h2><h3 id="3-1-概述"><a href="#3-1-概述" class="headerlink" title="3.1 概述"></a>3.1 概述</h3><p>​&emsp;&emsp;Redis发布订阅(pub/sub)是一种消息通信模式，发送者(pub)发送消息，订阅者(sub)接受消息。redis客户端可以订阅任意数量的频道</p>
+<h2 id="三、发布订阅"><a href="#三、发布订阅" class="headerlink" title="三、发布订阅"></a>三、发布订阅</h2><h3 id="3-1-概述"><a href="#3-1-概述" class="headerlink" title="3.1 概述"></a>3.1 概述</h3><p>&emsp;&emsp;Redis发布订阅(pub/sub)是一种消息通信模式，发送者(pub)发送消息，订阅者(sub)接受消息。redis客户端可以订阅任意数量的频道</p>
 <p>订阅/发布消息图：</p>
-<p><img src="https://i0.hdslb.com/bfs/album/c87aaebbc5812a845aed5be9eddc112b55c63333.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/c87aaebbc5812a845aed5be9eddc112b55c63333.png"></p>
 <p>三要素：消息发送者，频道，消息订阅者</p>
 <h3 id="3-2-基本命令"><a href="#3-2-基本命令" class="headerlink" title="3.2 基本命令"></a>3.2 基本命令</h3><ul>
 <li>PSUBSCRIBE pattern [patten …]<ul>
@@ -186,17 +186,17 @@
 </li>
 </ul>
 <p><strong>订阅一个频道</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/efdf9d1b02276b8d076cccf011b872d7e2ff3775.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/efdf9d1b02276b8d076cccf011b872d7e2ff3775.png"></p>
 <p><strong>然后我们在连接一个redis</strong> </p>
-<p><img src="https://i0.hdslb.com/bfs/album/e7ba77081dbe79d6c90f3b99997dcf32f62b7b52.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/e7ba77081dbe79d6c90f3b99997dcf32f62b7b52.png"></p>
 <p><strong>订阅者就会自动接受发布者发布的消息</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/7728a055c8b8e3cd2c893a6c6ee8951f939e06bb.png"></p>
-<h3 id="3-3-原理"><a href="#3-3-原理" class="headerlink" title="3.3 原理"></a>3.3 原理</h3><p>​&emsp;&emsp;Redis是使用C实现的，通过分析Redis源码里的pubsub.c文件，了解发布和订阅机制的底层实现原理。</p>
-<p>​&emsp;&emsp;redis通过PUBLISH、SUBSCRIBE和PSUBSCRIBE等命令实现发布和订阅功能。</p>
-<p>​&emsp;&emsp;通过SUBSCRIBE命令订阅某频道后，redis-server里维护了一个字典，字典的键就是一个个channel，而字典的值则是一个链表，链表中保存了所有订阅这个歌channel的哭护短。SUBSCRIBE命令的关键，就是将客户端添加到给定channel的订阅链表中。通过PUBLISH命令向订阅者发送小弟，redis-server会使用给定的评到作为键，它所维护的channel字典中查找记录了订阅这个频道的所用客户端的链表，遍历这个链表，将消息发布给所有订阅者。</p>
-<p>​&emsp;&emsp;pub/sub从字面上理解就是发布与订阅，在redis中，你可以设定对某一个key值进行消息发布及消息订阅，党一个key值上进行了消息发布后，所有订阅它的客户端都会收到相应的消息。这一功能最明显的用法就是用作实时消息系统，比如普通的聊天、群聊等功能。</p>
-<h2 id="四、主从复制"><a href="#四、主从复制" class="headerlink" title="四、主从复制"></a>四、主从复制</h2><p>​&emsp;&emsp;主从复制，是指将一台Redis服务器的数据，复制到其他的Redis服务。前者称为主节点(master/leader)，后者称为从节点(slave/follower)；数据的复制时单向的，只能由主节点到从节点。Master以写为主，Slave以读为主。</p>
-<p>​&emsp;&emsp;<strong>默认情况下，每台Redis服务器都是主节点；</strong> 且一个主节点可以由多个从节点(或没有从节点)，但一个从节点只能有一个主节点。</p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/7728a055c8b8e3cd2c893a6c6ee8951f939e06bb.png"></p>
+<h3 id="3-3-原理"><a href="#3-3-原理" class="headerlink" title="3.3 原理"></a>3.3 原理</h3><p>&emsp;&emsp;Redis是使用C实现的，通过分析Redis源码里的pubsub.c文件，了解发布和订阅机制的底层实现原理。</p>
+<p>&emsp;&emsp;redis通过PUBLISH、SUBSCRIBE和PSUBSCRIBE等命令实现发布和订阅功能。</p>
+<p>&emsp;&emsp;通过SUBSCRIBE命令订阅某频道后，redis-server里维护了一个字典，字典的键就是一个个channel，而字典的值则是一个链表，链表中保存了所有订阅这个歌channel的哭护短。SUBSCRIBE命令的关键，就是将客户端添加到给定channel的订阅链表中。通过PUBLISH命令向订阅者发送小弟，redis-server会使用给定的评到作为键，它所维护的channel字典中查找记录了订阅这个频道的所用客户端的链表，遍历这个链表，将消息发布给所有订阅者。</p>
+<p>&emsp;&emsp;pub/sub从字面上理解就是发布与订阅，在redis中，你可以设定对某一个key值进行消息发布及消息订阅，党一个key值上进行了消息发布后，所有订阅它的客户端都会收到相应的消息。这一功能最明显的用法就是用作实时消息系统，比如普通的聊天、群聊等功能。</p>
+<h2 id="四、主从复制"><a href="#四、主从复制" class="headerlink" title="四、主从复制"></a>四、主从复制</h2><p>&emsp;&emsp;主从复制，是指将一台Redis服务器的数据，复制到其他的Redis服务。前者称为主节点(master/leader)，后者称为从节点(slave/follower)；数据的复制时单向的，只能由主节点到从节点。Master以写为主，Slave以读为主。</p>
+<p>&emsp;&emsp;<strong>默认情况下，每台Redis服务器都是主节点；</strong> 且一个主节点可以由多个从节点(或没有从节点)，但一个从节点只能有一个主节点。</p>
 <p><strong>主从复制的作用：</strong></p>
 <ol>
 <li>数据冗余：主从复制实现了数据的热备份，时持久化之外的一种数据冗余方式</li>
@@ -214,7 +214,7 @@
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 查看当前库的信息</span></span><br><span class="line">info replication</span><br><span class="line"></span><br><span class="line">role:master <span class="comment">## 角色</span></span><br><span class="line">connected_slaves:0 <span class="comment">## 从机</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://i0.hdslb.com/bfs/album/3f539f763f033c44686fc0c0d562ef758b1b7bef.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/3f539f763f033c44686fc0c0d562ef758b1b7bef.png"></p>
 <p>修改复制3个配置文件，然后修改对应的信息</p>
 <ol>
 <li>端口</li>
@@ -228,37 +228,37 @@
 <p><strong>默认情况下每台redis服务器都是主机，</strong> 我们只需要配置从机就好了。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">## 从机配置</span></span><br><span class="line">slaveof 127.0.0.1 6379 <span class="comment">## 当前主机下的 6379端口</span></span><br></pre></td></tr></table></figure>
 
-<p>​&emsp;&emsp;但是这样配置时暂时的关闭重启服务就会失效。真实的应该从配置文件中配置，这样的化才是永久的。</p>
+<p>&emsp;&emsp;但是这样配置时暂时的关闭重启服务就会失效。真实的应该从配置文件中配置，这样的化才是永久的。</p>
 <blockquote>
 <p>配置细节</p>
 </blockquote>
-<p>​&emsp;&emsp;主机可以写，从机不能写只能读，主机中设置值，从机中也可以获取到。主机断开连接，从机依然时连接到主机的，但是没有写操作了，如果主机在重新连接上了，从机依然可以获取到主机写的资源</p>
+<p>&emsp;&emsp;主机可以写，从机不能写只能读，主机中设置值，从机中也可以获取到。主机断开连接，从机依然时连接到主机的，但是没有写操作了，如果主机在重新连接上了，从机依然可以获取到主机写的资源</p>
 <blockquote>
 <p>复制原理</p>
 </blockquote>
-<p>​&emsp;&emsp;Slave启动成功连接到master后会发送一个sync命令</p>
-<p>​&emsp;&emsp;Master接到命令，启动后台的存盘进程，同时收集所有接收到的修改数据集命令，在后台进程执行完毕之后，master将传送整个数据文件到slave，并完成一次完全同步</p>
-<p>​&emsp;&emsp;全量复制：二slave服务在接收到数据库文件后将其存盘并加载到内存中</p>
-<p>​&emsp;&emsp;增量服务：Master继续将新的所有收集到的修改命令一次传给slave，完成同步但是只要时从新连接master，一次完全同步将被自动执行</p>
+<p>&emsp;&emsp;Slave启动成功连接到master后会发送一个sync命令</p>
+<p>&emsp;&emsp;Master接到命令，启动后台的存盘进程，同时收集所有接收到的修改数据集命令，在后台进程执行完毕之后，master将传送整个数据文件到slave，并完成一次完全同步</p>
+<p>&emsp;&emsp;全量复制：二slave服务在接收到数据库文件后将其存盘并加载到内存中</p>
+<p>&emsp;&emsp;增量服务：Master继续将新的所有收集到的修改命令一次传给slave，完成同步但是只要时从新连接master，一次完全同步将被自动执行</p>
 <blockquote>
 <p>层层链路</p>
 </blockquote>
 <p>上一个主节点连下一个从节点！</p>
-<p><img src="https://i0.hdslb.com/bfs/album/158036f3e68ec6e0ac60eb176ab85881ba7b40e3.png"></p>
-<p>​&emsp;&emsp;如果主机断开了连接，我们可以使用 slaveof no one让自己编程主机，其他的节点就可以手动连接到这个节点。</p>
-<h2 id="五、哨兵模式"><a href="#五、哨兵模式" class="headerlink" title="五、哨兵模式"></a>五、哨兵模式</h2><h3 id="5-1-概述"><a href="#5-1-概述" class="headerlink" title="5.1 概述"></a>5.1 概述</h3><p>​&emsp;&emsp;主从切换技术的方法是：当主服务器宕机后，需要手动把一台服务器切换为主服务器，这需要人工干预，费时费力，还会造成一段时间内服务不可使用。这不是一种推荐的方式，更多时候，我们优先考虑哨兵模式。Redis从2.8开始正式提供了Sntinel(哨兵)架构来解决这个问题</p>
-<p>​&emsp;&emsp;哨兵模式能够后台监控主机是否故障，如果故障了根据投票数自动将从库转换为主库。</p>
-<p>​&emsp;&emsp;哨兵模式是一种特殊的模式，首先Redis提供了哨兵的命令，哨兵是一个独立的进程，作为进程，他会独立运行。<strong>其原理是哨兵通过发送命令，等待Redis服务器响应，从而监控运行的多个Redis实例。</strong></p>
-<p><img src="https://i0.hdslb.com/bfs/album/032db326f8af33e3275dae3188444a9713ed8f6c.png"></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/158036f3e68ec6e0ac60eb176ab85881ba7b40e3.png"></p>
+<p>&emsp;&emsp;如果主机断开了连接，我们可以使用 slaveof no one让自己编程主机，其他的节点就可以手动连接到这个节点。</p>
+<h2 id="五、哨兵模式"><a href="#五、哨兵模式" class="headerlink" title="五、哨兵模式"></a>五、哨兵模式</h2><h3 id="5-1-概述"><a href="#5-1-概述" class="headerlink" title="5.1 概述"></a>5.1 概述</h3><p>&emsp;&emsp;主从切换技术的方法是：当主服务器宕机后，需要手动把一台服务器切换为主服务器，这需要人工干预，费时费力，还会造成一段时间内服务不可使用。这不是一种推荐的方式，更多时候，我们优先考虑哨兵模式。Redis从2.8开始正式提供了Sntinel(哨兵)架构来解决这个问题</p>
+<p>&emsp;&emsp;哨兵模式能够后台监控主机是否故障，如果故障了根据投票数自动将从库转换为主库。</p>
+<p>&emsp;&emsp;哨兵模式是一种特殊的模式，首先Redis提供了哨兵的命令，哨兵是一个独立的进程，作为进程，他会独立运行。<strong>其原理是哨兵通过发送命令，等待Redis服务器响应，从而监控运行的多个Redis实例。</strong></p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/032db326f8af33e3275dae3188444a9713ed8f6c.png"></p>
 <p><strong>这里的哨兵有两个作用：</strong></p>
 <ul>
 <li>通过发送命令，让Rdis服务器返回监控其运行状态，包括主服务器和从服务器</li>
 <li>当哨兵检测到master宕机，会自动将slave切换成master，然后通过发布订阅模式通知其它的服务器，修改配置文件，让他们切换主机</li>
 </ul>
-<p>​&emsp;&emsp;然而一个哨兵进程对Redis服务器进行监控，可能会出现问题，因此，我们可以使用多个哨兵进行监控。各个哨兵之间还会进行监控，这样就形成了多哨兵模式。</p>
-<p><img src="https://i0.hdslb.com/bfs/album/1d6dce009f83849d2d1370579bfa92646d8163fd.png"></p>
-<p>​&emsp;&emsp;假设主服务器宕机，哨兵1先检测到这个结果，系统并不会马上进行failover过程，仅仅是哨兵1主观的认为服务器不可用，这个现象称为 <strong>主观下线。</strong> 当后面的哨兵也检测到主服务器不可用，并且数量到达一定值时，哪么哨兵之间就会进行一次投票，投票结果由一个哨兵发起，进行failover[故障转移]操作。切换成功后，就会通过发布订阅模式，让各个哨兵把自己监控的从服务器实现切换主机，这个过程称为 <strong>客观下级</strong>。</p>
-<h3 id="5-2-哨兵的介绍"><a href="#5-2-哨兵的介绍" class="headerlink" title="5.2 哨兵的介绍"></a>5.2 哨兵的介绍</h3><p>​&emsp;&emsp;sentinel，中文名是哨兵。哨兵是 redis 集群机构中非常重要的一个组件，主要有以下功能：</p>
+<p>&emsp;&emsp;然而一个哨兵进程对Redis服务器进行监控，可能会出现问题，因此，我们可以使用多个哨兵进行监控。各个哨兵之间还会进行监控，这样就形成了多哨兵模式。</p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/1d6dce009f83849d2d1370579bfa92646d8163fd.png"></p>
+<p>&emsp;&emsp;假设主服务器宕机，哨兵1先检测到这个结果，系统并不会马上进行failover过程，仅仅是哨兵1主观的认为服务器不可用，这个现象称为 <strong>主观下线。</strong> 当后面的哨兵也检测到主服务器不可用，并且数量到达一定值时，哪么哨兵之间就会进行一次投票，投票结果由一个哨兵发起，进行failover[故障转移]操作。切换成功后，就会通过发布订阅模式，让各个哨兵把自己监控的从服务器实现切换主机，这个过程称为 <strong>客观下级</strong>。</p>
+<h3 id="5-2-哨兵的介绍"><a href="#5-2-哨兵的介绍" class="headerlink" title="5.2 哨兵的介绍"></a>5.2 哨兵的介绍</h3><p>&emsp;&emsp;sentinel，中文名是哨兵。哨兵是 redis 集群机构中非常重要的一个组件，主要有以下功能：</p>
 <ul>
 <li>集群监控：负责监控 redis master 和 slave 进程是否正常工作。</li>
 <li>消息通知：如果某个 redis 实例有故障，那么哨兵负责发送消息作为报警通知给管理员。</li>
@@ -279,21 +279,21 @@
 <li><p>通过配置文件启动</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-sentinel myconfig/seninel.conf</span><br></pre></td></tr></table></figure></li>
 </ol>
-<h2 id="六、Redis缓存穿透和雪崩"><a href="#六、Redis缓存穿透和雪崩" class="headerlink" title="六、Redis缓存穿透和雪崩"></a>六、Redis缓存穿透和雪崩</h2><p>​&emsp;&emsp;Redis缓存的使用，极大的提升了应用程序的性能和效率，特别是数据查询方面。但同时，也带来了一些问题。其中，最要害的问题，就是数据的一致性问题，从严格意义上讲，这个问题无解。如果对数据的一致性要求很高，那么就不能使用缓存。</p>
-<p>​&emsp;&emsp;另外一些典型的问题就是，缓存穿透，缓存雪崩和缓存击穿。目前，业界也都有比较流行的解决办法。</p>
+<h2 id="六、Redis缓存穿透和雪崩"><a href="#六、Redis缓存穿透和雪崩" class="headerlink" title="六、Redis缓存穿透和雪崩"></a>六、Redis缓存穿透和雪崩</h2><p>&emsp;&emsp;Redis缓存的使用，极大的提升了应用程序的性能和效率，特别是数据查询方面。但同时，也带来了一些问题。其中，最要害的问题，就是数据的一致性问题，从严格意义上讲，这个问题无解。如果对数据的一致性要求很高，那么就不能使用缓存。</p>
+<p>&emsp;&emsp;另外一些典型的问题就是，缓存穿透，缓存雪崩和缓存击穿。目前，业界也都有比较流行的解决办法。</p>
 <h3 id="6-1缓存穿透"><a href="#6-1缓存穿透" class="headerlink" title="6.1缓存穿透"></a>6.1缓存穿透</h3><blockquote>
 <p>概念</p>
 </blockquote>
-<p>​&emsp;&emsp;缓存穿透的概念很简单，用户想要查询一个数据，发现redis内存数据库没有，也就是缓存没有命中，于是向持久层数据库查询，发现也没有，于是奔驰查询失败。当用户很多的时候，缓存都没有命中，于是都去请求了持久层数据集。这会给持久层数据库造成很大的压力，这时候就相当于出现了缓存穿透。</p>
+<p>&emsp;&emsp;缓存穿透的概念很简单，用户想要查询一个数据，发现redis内存数据库没有，也就是缓存没有命中，于是向持久层数据库查询，发现也没有，于是奔驰查询失败。当用户很多的时候，缓存都没有命中，于是都去请求了持久层数据集。这会给持久层数据库造成很大的压力，这时候就相当于出现了缓存穿透。</p>
 <blockquote>
 <p>解决方案</p>
 </blockquote>
 <p><strong>布隆过滤器</strong>    </p>
-<p>​&emsp;&emsp;布隆过滤器时一种数据结构，对所有可能查询的参数以hash形式存储，在控制层先进行效验，不合符则丢弃，从而避免了对底层存储系统的查询压力</p>
-<p><img src="https://i0.hdslb.com/bfs/album/621d44e50dcaeb91a4c38e038d90cb87c8ba3497.png"></p>
+<p>&emsp;&emsp;布隆过滤器时一种数据结构，对所有可能查询的参数以hash形式存储，在控制层先进行效验，不合符则丢弃，从而避免了对底层存储系统的查询压力</p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/621d44e50dcaeb91a4c38e038d90cb87c8ba3497.png"></p>
 <p><strong>缓存空对象</strong></p>
-<p>​&emsp;&emsp;当存储层不命中后，即使返回的空对象也将缓存起来，同时会设置一个过期时间，之后再访问这个数据将会从缓存中获取，保护了后端数据源：</p>
-<p><img src="https://i0.hdslb.com/bfs/album/695d20307729b655e7a878f5a9bbb5c64c0950ad.png"></p>
+<p>&emsp;&emsp;当存储层不命中后，即使返回的空对象也将缓存起来，同时会设置一个过期时间，之后再访问这个数据将会从缓存中获取，保护了后端数据源：</p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/695d20307729b655e7a878f5a9bbb5c64c0950ad.png"></p>
 <p>​    但是这种方式存在两个问题：</p>
 <ol>
 <li>如果空值能被缓存起来，就意味着缓存需要更多的空间存储更多的键，因为这当中可能会有很多的空值的键</li>
@@ -302,29 +302,29 @@
 <h3 id="6-2-缓存击穿"><a href="#6-2-缓存击穿" class="headerlink" title="6.2 缓存击穿"></a>6.2 缓存击穿</h3><blockquote>
 <p>概念</p>
 </blockquote>
-<p>​&emsp;&emsp;这里需要注意和缓存穿透的区别，缓存击穿是指一个key非常热点，再不停的扛着大并发，大并发几种对这个点进行访问，当这个key再失效的瞬间，持续的大并发就穿透缓存，直接请求数据库，就像在一个屏障上凿开了一个洞。</p>
-<p>​&emsp;&emsp;当某个key再过期的瞬间，有大量的请求并发访问，这类数据一般是热点数据，由于缓存过期，会同时访问数据库来查询最新数据，并且回写缓存，导致数据库瞬间压力过大</p>
+<p>&emsp;&emsp;这里需要注意和缓存穿透的区别，缓存击穿是指一个key非常热点，再不停的扛着大并发，大并发几种对这个点进行访问，当这个key再失效的瞬间，持续的大并发就穿透缓存，直接请求数据库，就像在一个屏障上凿开了一个洞。</p>
+<p>&emsp;&emsp;当某个key再过期的瞬间，有大量的请求并发访问，这类数据一般是热点数据，由于缓存过期，会同时访问数据库来查询最新数据，并且回写缓存，导致数据库瞬间压力过大</p>
 <blockquote>
 <p>解决方案</p>
 </blockquote>
 <p><strong>设置热点数据永不过期</strong></p>
-<p>​&emsp;&emsp;从缓存层来看，没有设置过期时间，所以不会出现热点key过期后产生的问题。</p>
+<p>&emsp;&emsp;从缓存层来看，没有设置过期时间，所以不会出现热点key过期后产生的问题。</p>
 <p><strong>加互斥锁</strong></p>
-<p>​&emsp;&emsp;分布式锁：使用分布式锁，保证对于每个key同时只有一个线程去查询后端服务，其他线程没有获得分布式锁的权限，因此只需要等待即可。等这种方式将高并发的压力转移到了分布式锁。</p>
+<p>&emsp;&emsp;分布式锁：使用分布式锁，保证对于每个key同时只有一个线程去查询后端服务，其他线程没有获得分布式锁的权限，因此只需要等待即可。等这种方式将高并发的压力转移到了分布式锁。</p>
 <h3 id="6-3缓存雪崩"><a href="#6-3缓存雪崩" class="headerlink" title="6.3缓存雪崩"></a>6.3缓存雪崩</h3><blockquote>
 <p>概念</p>
 </blockquote>
-<p>​&emsp;&emsp;缓存雪崩，是指再某一段时间，缓存几种过期失效。redis宕机！</p>
-<p>​&emsp;&emsp;产生雪崩的原因之一，比如在写文本的时候，马上要到双十一零点，很快就会迎来一波抢购，这波商品时间比较几种的放入了缓存，假设缓存一个小时，那么到了一点这批缓存就都过期了，而对这批商品的访问查询，都落到了数据库上，对于数据库而言，就会产生周期性的压力风波，于是所有的请求都会到达存储层，存储层的调用了会暴增， 造成存储层也会挂掉的现象</p>
-<p><img src="https://i0.hdslb.com/bfs/album/866af5fe4311ed53174158994af7aefac1fa7fed.png"></p>
-<p>​&emsp;&emsp;其实数据集中过期倒不是最致命的，最致命的缓存雪崩式缓存服务器某个节点宕机或者断网。因为自然形成的缓存雪崩，一定是在某个时间集中创建缓存，这个时候，数据库也是可以顶住压力的。无非就是对数据库产生周期性的压力而已。而缓存服务器节点的宕机，对数据库服务器造成的压力式不可预知的，很有可能瞬间就把数据库压跨掉。</p>
+<p>&emsp;&emsp;缓存雪崩，是指再某一段时间，缓存几种过期失效。redis宕机！</p>
+<p>&emsp;&emsp;产生雪崩的原因之一，比如在写文本的时候，马上要到双十一零点，很快就会迎来一波抢购，这波商品时间比较几种的放入了缓存，假设缓存一个小时，那么到了一点这批缓存就都过期了，而对这批商品的访问查询，都落到了数据库上，对于数据库而言，就会产生周期性的压力风波，于是所有的请求都会到达存储层，存储层的调用了会暴增， 造成存储层也会挂掉的现象</p>
+<p><img src="https://yueblog.oss-cn-qingdao.aliyuncs.com/Redis%E4%B8%8B/866af5fe4311ed53174158994af7aefac1fa7fed.png"></p>
+<p>&emsp;&emsp;其实数据集中过期倒不是最致命的，最致命的缓存雪崩式缓存服务器某个节点宕机或者断网。因为自然形成的缓存雪崩，一定是在某个时间集中创建缓存，这个时候，数据库也是可以顶住压力的。无非就是对数据库产生周期性的压力而已。而缓存服务器节点的宕机，对数据库服务器造成的压力式不可预知的，很有可能瞬间就把数据库压跨掉。</p>
 <blockquote>
 <p>解决方案</p>
 </blockquote>
 <p><strong>redis高可用</strong></p>
-<p>​&emsp;&emsp;这个思想的含义是，既然redis有可能挂掉，那我多增设几台Redis，也就是搭建Redis集群</p>
+<p>&emsp;&emsp;这个思想的含义是，既然redis有可能挂掉，那我多增设几台Redis，也就是搭建Redis集群</p>
 <p><strong>限流降级</strong></p>
-<p>​&emsp;&emsp;这个解决方案的思想就是，再缓存失效后，通过加锁或者队列来控制数据库写缓存的线程数量。比如对某个key只允许一个线程查询数据和写缓存，其他线程等待。</p>
+<p>&emsp;&emsp;这个解决方案的思想就是，再缓存失效后，通过加锁或者队列来控制数据库写缓存的线程数量。比如对某个key只允许一个线程查询数据和写缓存，其他线程等待。</p>
 <p><strong>数据预热</strong></p>
-<p>​&emsp;&emsp;数据加热的含义就是再正式不是之前，我们把可能的数据先预先访问一边，这样部分可能大量访问的数据和就会加载到缓存中，再即将发生大并发访问前手动触发加载缓存不同的key，设置不同的过期时间，让缓存失效的时间尽量均匀.</p>
-</div><div class="tags"><a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"><i class="fa fa-tag"></i>数据库</a></div><div class="post-nav"><a class="pre" href="/2020/08/10/Redis%20%E4%B8%8A/">长达数万子的Redis大总结（上）</a><a class="next" href="/2020/07/30/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">文件上传</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://example.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JWT/">JWT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java-Web/">Java-Web</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leetcode/">Leetcode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/json/">json</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 15px;">笔记</a> <a href="/tags/JWT/" style="font-size: 15px;">JWT</a> <a href="/tags/Leetcode/" style="font-size: 15px;">Leetcode</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/%E5%BC%82%E5%B8%B8%E6%97%A5%E5%BF%97/" style="font-size: 15px;">异常日志</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" style="font-size: 15px;">数据库</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 15px;">多线程</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/07/11/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/07/shiro(%E4%BA%94)%E6%95%B4%E5%90%88SpringBoot/">Shiro入门(五)：整合SpringBoot</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/05/shiro(%E5%9B%9B)%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Shiro入门(四)：认证源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/03/shiro(%E4%B8%89)%E8%AE%A4%E8%AF%81/">Shiro入门(三)：授权</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/03/shiro(%E4%BA%8C)%E8%87%AA%E5%AE%9A%E4%B9%89Reaml%E4%B8%8E%E5%8A%A0%E5%AF%86/">Shiro入门(二)：自定义Reaml与加密</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/02/shiro(%E4%B8%80)%E6%8E%88%E6%9D%83/">Shiro入门(一)：授权</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/19/Vue%E8%BF%9B%E9%98%B6/">Vue进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/19/JWT%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">JWT快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/16/Leetcode-01-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">Leetcode-01-两数之和</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/16/Vue%E5%85%A5%E9%97%A8/">Vue-入门</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">岳争.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
+<p>&emsp;&emsp;数据加热的含义就是再正式不是之前，我们把可能的数据先预先访问一边，这样部分可能大量访问的数据和就会加载到缓存中，再即将发生大并发访问前手动触发加载缓存不同的key，设置不同的过期时间，让缓存失效的时间尽量均匀.</p>
+</div><div class="tags"><a href="/tags/%E7%AC%94%E8%AE%B0/"><i class="fa fa-tag"></i>笔记</a></div><div class="post-nav"><a class="pre" href="/2020/08/10/Redis%20%E4%B8%8A/">长达数万子的Redis大总结（上）</a><a class="next" href="/2020/07/30/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0/">文件上传</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://example.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/JWT/">JWT</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/JavaWeb/">JavaWeb</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Leetcode/">Leetcode</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MyBatis/">MyBatis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/MySQL/">MySQL</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Redis/">Redis</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Shiro/">Shiro</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Spring/">Spring</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Vue/">Vue</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/html/">html</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/json/">json</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> 标签</i></div><div class="tagcloud"><a href="/tags/Java/" style="font-size: 15px;">Java</a> <a href="/tags/%E7%AC%94%E8%AE%B0/" style="font-size: 15px;">笔记</a> <a href="/tags/JWT/" style="font-size: 15px;">JWT</a> <a href="/tags/%E7%AE%97%E6%B3%95/" style="font-size: 15px;">算法</a> <a href="/tags/Spring/" style="font-size: 15px;">Spring</a> <a href="/tags/%E5%BC%82%E5%B8%B8%E6%97%A5%E5%BF%97/" style="font-size: 15px;">异常日志</a> <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 15px;">数据结构</a> <a href="/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/" style="font-size: 15px;">多线程</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2021/07/12/MySQL%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/">最详细的MySql配置文件详解</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/07/shiro(%E4%BA%94)%E6%95%B4%E5%90%88SpringBoot/">Shiro入门(五)：整合SpringBoot</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/05/shiro(%E5%9B%9B)%E8%AE%A4%E8%AF%81%E6%B5%81%E7%A8%8B%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">Shiro入门(四)：认证源码分析</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/03/shiro(%E4%B8%89)%E8%AE%A4%E8%AF%81/">Shiro入门(三)：授权</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/03/shiro(%E4%BA%8C)%E8%87%AA%E5%AE%9A%E4%B9%89Reaml%E4%B8%8E%E5%8A%A0%E5%AF%86/">Shiro入门(二)：自定义Reaml与加密</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/12/02/shiro(%E4%B8%80)%E6%8E%88%E6%9D%83/">Shiro入门(一)：授权</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/19/Vue%E8%BF%9B%E9%98%B6/">Vue进阶</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/19/JWT%E5%BF%AB%E9%80%9F%E5%85%A5%E9%97%A8/">JWT快速入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/11/16/Leetcode-01-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C/">Leetcode-01-两数之和</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/10/16/Vue%E5%85%A5%E9%97%A8/">Vue-入门</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2021 <a href="/." rel="nofollow">岳争.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><script type="text/javascript" src="/js/copycode.js" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
